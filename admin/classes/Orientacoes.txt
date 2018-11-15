@@ -1,0 +1,98 @@
+This post will include the following contents:
+
+1.0 Overview
+2.0 Program output
+
+3.0 Database table structure
+3.1 Create a database
+3.2 Create products table
+3.3 Insert products sample data
+3.4 Create categories table
+3.5 Insert categories sample data
+3.6 Output
+
+4.0 Create the layout files
+4.1 Create header layout file
+4.2 Create footer layout file
+4.3 Create custom CSS file
+4.4 Output
+
+5.0 Creating record in PHP the OOP way
+5.1 Create create_product.php file
+5.2 Create "Read Products" button
+5.3 Get a database connection
+5.4 Create the database class
+5.5 Create an HTML form
+5.6 Show categories drop down
+5.7 Create "categories" object
+5.8 Add readName() method
+5.9 Code when the form was submitted
+5.10 Create "products" object
+5.11 Output
+
+6.0 Reading and paging record in PHP the OOP way
+6.1 Create index.php file
+6.2 Add "Create Product" button
+6.3 Configure pagination variables
+6.4 Retrieve records from the database
+6.5 Add readAll() method
+6.6 Display data from the database
+6.7 Add action buttons
+6.8 Create paging.php file
+6.9 Add countAll() method
+6.10 Include paging.php file
+6.11 Output
+
+7.0 Updating record in PHP the OOP way
+7.1 Create update_product.php file
+7.2 Create "Read Products" button
+7.3 Read one record
+7.4 Add readOne() method
+7.5 Put form values
+7.6 Show categories dropdown
+7.7 Code when form was submitted
+7.8 Add update() method
+7.9 Output
+
+8.0 Read One Record in PHP the OOP way
+8.1 Create read_one.php file
+8.2 Read one record
+8.3 Display record on HTML table
+8.4 Output
+
+9.0 Deleting record in PHP the OOP way
+9.1 Put this JavaScript code in layout_footer.php
+9.2 Create delete_product.php
+9.3 Add delete() method
+9.4 Output
+
+10.0 Search records in PHP the OOP way
+10.1 Change index.php code
+10.2 Create read_template.php file
+10.3 Create core.php file
+10.4 Change paging.php code
+10.5 Include core.php and read_template.php
+10.6 Create search.php file
+10.7 Add search() and countAll_BySearch() methods
+10.8 Output
+
+11.0 File upload in PHP the OOP way
+11.1 Change HTML form
+11.2 Set value of "image" field
+11.3 Change create() method
+11.4 Call uploadPhoto() method
+11.5 Add uploadPhoto() method
+11.6 Validate submitted file
+11.7 Return error messages
+11.8 Show uploaded image file
+11.9 Output
+
+12.0 How To Run The Source Code?
+13.0 Download LEVEL 1 Source Code
+14.0 Download LEVEL 2 Source Code
+15.0 Download LEVEL 3 Source Code
+16.0 Download ALL LEVELS
+
+17.0 What's Next?
+18.0 Related Tutorials
+19.0 Notes
