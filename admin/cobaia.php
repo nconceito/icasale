@@ -4,15 +4,23 @@
 
     $Pessoa = new clsPessoa();
     
-    $Pessoa->CarregarID(5);
+    $Pessoa->CarregarID(1);
+
+
+    $Pessoa->setApelido("Sr. Airton");
+    $Pessoa->setTipoPessoa("Física");
+    $Pessoa->Salvar();
+
+    $Pessoa->Limpar();
+
+    $Pessoa->CarregarID(1);
 
     echo "Código: ".$Pessoa->getPessoaID()."<br>";
     echo "Tipo de pessoa: ".$Pessoa->getTipoPessoa()."<br>";
     echo "Nome: ".$Pessoa->getNome()."<br>";
     echo "Apelido: ".$Pessoa->getApelido()."<br>";
+    
     echo "Nascimento: " . date('d/m/Y', strtotime($Pessoa->getNascimento()))."<br>";
-
-
     
     echo "CPF: ".$Pessoa->getFederal()."<br>";
     echo "RG: ".$Pessoa->getEstadual()."<br>";
