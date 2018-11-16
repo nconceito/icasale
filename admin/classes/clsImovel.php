@@ -1,8 +1,11 @@
 <?php
-    class Imovel{
+     class clsImovel{
 
+        
         //Variáveis locais
-        $Tabela = "Imoveis"
+        private $Tabela = "Imoveis";
+        private $CampoID = "ImovelID";
+
 
         private $ImovelID;
         private $Titulo;
@@ -12,6 +15,7 @@
         private $Bairro;
         private $Cidade;
         private $Estado;
+        private $CEP;
         private $Complemento;
         private $AreaUtil;
         private $AreaTotal;
@@ -23,16 +27,19 @@
         private $Banheiros;
         private $Vagas;
         private $Suites;
-        
-        
+
         //Propriedades
         function getImovelID(){return $this->ImovelID;}
-        
+
+
         function getTitulo(){return $this->Titulo;}
         function setTitulo($valor){$this->Titulo=$valor;}
 
+        function getPessoaID(){return $this->Pessoa->getPessoaID();}
+        function setPessoaID($valor){$this->Pessoa->CarregarID($valor);}
+
         function getTipoImovel(){return $this->TipoImovel;}
-        function setTipoImovel$valor){$this->TipoImovel=$valor;}
+        function setTipoImovel($valor){$this->TipoImovel=$valor;}
 
         function getEndereco(){return $this->Endereco;}
         function setEndereco($valor){$this->Endereco=$valor;}
@@ -49,6 +56,9 @@
         function getEstado(){return $this->Estado;}
         function setEstado($valor){$this->Estado=$valor;}
 
+        function getCEP(){return $this->CEP;}
+        function setCEP($valor){$this->CEP=$valor;}
+
         function getComplemento(){return $this->Complemento;}
         function setComplemento($valor){$this->Complemento=$valor;}
 
@@ -63,12 +73,6 @@
 
         function getValorIPTU(){return $this->ValorIPTU;}
         function setValorIPTU($valor){$this->ValorIPTU=$valor;}
-
-        function getAreaTotal(){return $this->AreaTotal;}
-        function setAreaTotal($valor){$this->AreaTotal=$valor;}
-
-        function getValorIPTU(){return $this->ValorIPTU;}
-        function setValorIPTU($valor){$ValorIPTU=$valor;}
 
         function getValorAluguel(){return $this->ValorAluguel;}
         function setValorAluguel($valor){$this->ValorAluguel=$valor;}
@@ -93,54 +97,54 @@
         //Método Criar
         function Incluir(){
 
-            $sql = "insert into ".$Tabela." (
-                $ImovelID,
-                $Titulo,
-                $TipoImovel,
-                $Endereco,
-                $Numero,
-                $Bairro,
-                $Cidade,
-                $Estado,
-                $Complemento,
-                $AreaUtil,
-                $AreaTotal,
-                $ValorCondominio,
-                $ValorIPTU,
-                $ValorAluguel,
-                $ValorVenda,
-                $Dormitorios,
-                $Banheiros,
-                $Vagas,
-                $Suites
-        
-            ) values (
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?
-            )";
+            $sql = "insert into ". $this->Tabela."
+                (
+                    Titulo,
+                    TipoImovel,
+                    Endereco,
+                    Numero,
+                    Bairro,
+                    Cidade,
+                    Estado,
+                    CEP,
+                    Complemento,
+                    AreaUtil,
+                    AreaTotal,
+                    ValorCondominio,
+                    ValorIPTU,
+                    ValorAluguel,
+                    ValorVenda,
+                    Dormitorios,
+                    Banheiros,
+                    Vagas,
+                    Suites
+                ) values (
+                    ?, 
+                    ?, 
+                    ?,
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?
+                )";
+                
+            include "config.php";  
 
-            include "config.php";   
             if ($comando = $Dados->prepare($sql)){
                 $comando->bind_param(
-                    "issssssssddddddssss",
-                    $this->ImovelID,
+                    "sssssssssssssssssss",
                     $this->Titulo,
                     $this->TipoImovel,
                     $this->Endereco,
@@ -148,6 +152,7 @@
                     $this->Bairro,
                     $this->Cidade,
                     $this->Estado,
+                    $this->CEP,
                     $this->Complemento,
                     $this->AreaUtil,
                     $this->AreaTotal,
@@ -159,16 +164,18 @@
                     $this->Banheiros,
                     $this->Vagas,
                     $this->Suites
-                    );
-
-                $comando->execute();
+                );
+                
+                $comando->execute();                
                 
                 $msg='{"Código":0,"Mensagem":"Ok"}';
                 return $msg;
-
+                
             } else {
-
+                
                 $msg = '{"Codigo":"1","Mensagem":"Não foi possível incluir."}';
+                echo $msg;
+                
                 return $msg;
 
             }
@@ -178,37 +185,50 @@
 
         function CarregarID($ID){
 
-            include "config.php";   
 
-            $sql = "select * from ".$Tabela." where ".$this->ID." = ?";
+
+            include "config.php";
+
+            $sql = "select * from ".$this->Tabela." where " . $this->CampoID . " = ?";
 
             if ($comando = $Dados->prepare($sql)){
 
-                $comando->bind_param("i", $this->$ID);
+                $comando->bind_param("i", $ID);
                 $comando->execute();
                 $resultado = $comando->get_result();
                 $obj = $resultado->fetch_object();
 
-                $this->ImovelID = $obj->ImovelID;
-                $this->Titulo = $obj->Titulo;
-                $this->TipoImovel = $obj->TipoImovel;
-                $this->Endereco = $obj->Endereco;
-                $this->Numero = $obj->Numero;
-                $this->Bairro = $obj->Bairro;
-                $this->Cidade = $obj->Cidade;
-                $this->Estado = $obj->Estado;
-                $this->Complemento = $obj->Complemento;
-                $this->AreaUtil = $obj->AreaUtil;
-                $this->AreaTotal = $obj->AreaTotal;
-                $this->ValorCondominio = $obj->ValorCondominio;
-                $this->ValorIPTU = $obj->ValorIPTU;
-                $this->ValorAluguel = $obj->ValorAluguel;
-                $this->ValorVenda = $obj->ValorVenda;
-                $this->Dormitorios = $obj->Dormitorios;
-                $this->Banheiros = $obj->Banheiros;
-                $this->Vagas = $obj->Vagas;
-                $this->Suites = $obj->Suites;
-
+                
+                $this->ImovelID=$obj->ImovelID;
+                $this->Titulo=$obj->Titulo;
+                $this->TipoImovel=$obj->TipoImovel;
+                $this->Endereco=$obj->Endereco;
+                $this->Numero=$obj->Numero;
+                $this->Bairro=$obj->Bairro;
+                $this->Cidade=$obj->Cidade;
+                $this->Estado=$obj->Estado;
+                $this->CEP=$obj->CEP;
+                $this->Complemento=$obj->Complemento;
+                $this->AreaUtil=$obj->AreaUtil;
+                $this->AreaTotal=$obj->AreaTotal;
+                $this->ValorCondominio=$obj->ValorCondominio;
+                $this->ValorIPTU=$obj->ValorIPTU;
+                $this->ValorAluguel=$obj->ValorAluguel;
+                $this->ValorVenda=$obj->ValorVenda;
+                $this->Dormitorios=$obj->Dormitorios;
+                $this->Banheiros=$obj->Banheiros;
+                $this->Vagas=$obj->Vagas;
+                $this->Suites=$obj->Suites;
+                
+                include "classes/clsPessoa.php";
+                
+                settype($Pessoa, "object");
+                
+                $Pessoa = new clsPessoa();
+                
+                $Pessoa->CarregarID($obj->PessoaID);
+                
+                
                 $msg='{"Código":0,"Mensagem":"Ok"}';
                 return $msg;
 
@@ -224,43 +244,51 @@
 
             include "config.php";
 
-            $sql = "select * from ".$Tabela." where ".$Campo." = ?";
+            $sql = "select * from ".$this->Tabela." where ".$Campo." like ?";
 
             if ($comando = $Dados->prepare($sql)){
 
-                $comando->bind_param($Tipo, $this->$Valor);
+                $comando->bind_param($Tipo, $Valor);
                 $comando->execute();
                 $resultado = $comando->get_result();
                 $obj = $resultado->fetch_object();
 
-                if ($comando = $Dados->prepare($sql)){
+                $retorno='
+                {"Imovel":[';
+                
+                while ($obj = $resultado->fetch_array()){
 
-                    $comando->bind_param("i", $this->$ID);
-                    $comando->execute();
-                    $resultado = $comando->get_result();
-                    $obj = $resultado->fetch_object();
-    
-                    $this->ImovelID = $obj->ImovelID;
-                    $this->Titulo = $obj->Titulo;
-                    $this->TipoImovel = $obj->TipoImovel;
-                    $this->Endereco = $obj->Endereco;
-                    $this->Numero = $obj->Numero;
-                    $this->Bairro = $obj->Bairro;
-                    $this->Cidade = $obj->Cidade;
-                    $this->Estado = $obj->Estado;
-                    $this->Complemento = $obj->Complemento;
-                    $this->AreaUtil = $obj->AreaUtil;
-                    $this->AreaTotal = $obj->AreaTotal;
-                    $this->ValorCondominio = $obj->ValorCondominio;
-                    $this->ValorIPTU = $obj->ValorIPTU;
-                    $this->ValorAluguel = $obj->ValorAluguel;
-                    $this->ValorVenda = $obj->ValorVenda;
-                    $this->Dormitorios = $obj->Dormitorios;
-                    $this->Banheiros = $obj->Banheiros;
-                    $this->Vagas = $obj->Vagas;
-                    $this->Suites = $obj->Suites;
-                    $this->Proprietario = new Pessoa()
+                    $retorno = $retorno . '
+                    {
+                        "ImovelID":'.$obj["ImovelID"].',
+                        "Titulo":'.$obj["Titulo"].',
+                        "TipoImovel":'.$obj["TipoImovel"].',
+                        "Endereco":'.$obj["Endereco"].',
+                        "Numero":'.$obj["Numero"].',
+                        "Bairro":'.$obj["Bairro"].',
+                        "Cidade":'.$obj["Cidade"].',
+                        "Estado":'.$obj["Estado"].',
+                        "CEP":'.$obj["CEP"].',
+                        "Complemento":'.$obj["Complemento"].',
+                        "AreaUtil":'.$obj["AreaUtil"].',
+                        "AreaTotal":'.$obj["AreaTotal"].',
+                        "ValorCondominio":'.$obj["ValorCondominio"].',
+                        "ValorIPTU":'.$obj["ValorIPTU"].',
+                        "ValorAluguel":'.$obj["ValorAluguel"].',
+                        "ValorVenda":'.$obj["ValorVenda"].',
+                        "Dormitorios":'.$obj["Dormitorios"].',
+                        "Banheiros":'.$obj["Banheiros"].',
+                        "Vagas":'.$obj["Vagas"].'
+                        "Suites":'.$obj["Suites"].',
+                    },';
+                }
+                
+                $tamanho = strlen($retorno);
 
+                $retorno = substr($retorno,0, $tamanho-1);
+                $retorno = $retorno . "                
+                ]}";
+                return $retorno;
                 $msg='{"Código":0,"Mensagem":"Ok"}';
                 return $msg;
 
@@ -276,22 +304,66 @@
 
             include "config.php";
 
-            $sql = "update ".$tabela." set             
-            Propriedade1 = '".$this->Propriedade1."',
-            Propriedade2 = '".$this->Propriedade2."',
-            Propriedade3 = '".$this->Propriedade3."'
-            ";
+            
+            $sql = "update " . $this->Tabela . " set
+            
+            Titulo = ?,
+            TipoImovel = ?,
+            Endereco = ?,
+            Numero = ?,
+            Bairro = ?,
+            Cidade = ?,
+            Estado = ?,
+            CEP = ?,
+            Complemento = ?,
+            AreaUtil = ?,
+            AreaTotal = ?,
+            ValorCondominio = ?,
+            ValorIPTU = ?,
+            ValorAluguel = ?,
+            ValorVenda = ?,
+            Dormitorios = ?,
+            Banheiros = ?,
+            Vagas = ?,
+            Suites = ?
+            where " . $this->CampoID . " = ?";
 
+            echo $sql;
+            
             if ($comando = $Dados->prepare($sql)){			
 
-                $comando->bind_param("i", $this->$PropriedadeID);
-                $comando->execute();
-                $resultado = $comando->get_result();
-                $obj = $resultado->fetch_object();		
 
-                $this->Propriedade1=$obj->Propriedade1;
-                $this->Propriedade2=$obj->Propriedade2;
-                $this->Propriedade3=$obj->Propriedade3;
+                $comando->bind_param(
+                    
+                    "sssssssssssssssssssi",
+
+                    $this->Titulo,
+                    $this->TipoImovel,
+                    $this->Endereco,
+                    $this->Numero,
+                    $this->Bairro,
+                    $this->Cidade,
+                    $this->Estado,
+                    $this->CEP,
+                    $this->Complemento,
+                    $this->AreaUtil,
+                    $this->AreaTotal,
+                    $this->ValorCondominio,
+                    $this->ValorIPTU,
+                    $this->ValorAluguel,
+                    $this->ValorVenda,
+                    $this->Dormitorios,
+                    $this->Banheiros,
+                    $this->Vagas,
+                    $this->Suites,
+                    $this->ImovelID
+                );               
+
+                
+                
+                $comando->execute();
+                echo "<br><br>Linhas afetadas: "  . $comando->affected_rows;
+                
 
                 $msg='{"Código":0,"Mensagem":"Ok"}';
                 return $msg;
@@ -299,6 +371,7 @@
             } else {
 
                 $msg = '{"Codigo":"1","Mensagem":"Não foi possível carregar."}';
+                return $msg;
 
             }
         }
@@ -309,9 +382,9 @@
 
             include "config.php";  
             
-            $sql = "Delete from " . $Tabela . " where " . /* Nome do campo ID */ . " = ?";
+            $sql = "Delete from " . $Tabela . " where " . $CampoID . " = ?";
 
-            if ($comando = $Dados->prepare("select * from ".$Tabela." where "./* Nome do campo ID */." = ?")){			
+            if ($comando = $Dados->prepare($sql)){			
 
                 $comando->bind_param("i", $this->$PropriedadeID);
                 $comando->execute();
@@ -325,5 +398,31 @@
 
             }
         }
+
+        function Limpar(){
+
+            $this->Titulo="";
+            $this->TipoImovel="";
+            $this->Endereco="";
+            $this->Numero="";
+            $this->Bairro="";
+            $this->Cidade="";
+            $this->Estado="";
+            $this->CEP="";
+            $this->Complemento="";
+            $this->AreaUtil="";
+            $this->AreaTotal="";
+            $this->ValorCondominio="";
+            $this->ValorIPTU="";
+            $this->ValorAluguel="";
+            $this->ValorVenda="";
+            $this->Dormitorios="";
+            $this->Banheiros="";
+            $this->Vagas="";
+            $this->Suites="";
+            $this->ImovelID="";
+
+        }
     }
+
 ?>

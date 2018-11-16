@@ -197,27 +197,37 @@
                 $comando->bind_param($Tipo, $Valor);
                 $comando->execute();
                 $resultado = $comando->get_result();
-                $obj = $resultado->fetch_object();
 
-                //echo $sql."<br><br>";
-                //var_dump($resultado);
-                //echo "<br><br>";
+                $retorno='
+                {"Pessoa":[';
+                
+                while ($obj = $resultado->fetch_array()){
 
-                $this->PessoaID = $obj->PessoaID;
-                $this->Nome=$obj->Nome;
-                $this->Apelido=$obj->Apelido;
-                $this->Nascimento=$obj->Nascimento;
-                $this->Federal=$obj->Federal;
-                $this->Estadual=$obj->Estadual;
-                $this->Municipal=$obj->Municipal;
-                $this->Rua=$obj->Rua;
-                $this->Numero=$obj->Número;
-                $this->Bairro=$obj->Bairro;
-                $this->Cidade=$obj->Cidade;
-                $this->Estado=$obj->Estado;
-                $this->CEP=$obj->CEP;
-                $this->Complemento=$obj->Complemento;
-                $this->TipoPessoa=$obj->TipoPessoa;
+                    $retorno = $retorno . '
+                    {
+                        "PessoaID":'.$obj["PessoaID"].',
+                        "Nome":"'.$obj["Nome"].'",
+                        "Apelido":"'.$obj["Apelido"].'",
+                        "Nascimento":"'.$obj["Nascimento"].'",
+                        "Estadual":"'.$obj["Estadual"].'",
+                        "Municipal":"'.$obj["Municipal"].'",
+                        "Rua":"'.$obj["Rua"].'",
+                        "Numero":"'.$obj["Número"].'",
+                        "Bairro":"'.$obj["Bairro"].'",
+                        "Cidade":"'.$obj["Cidade"].'",
+                        "Estado":"'.$obj["Estado"].'",
+                        "CEP":"'.$obj["CEP"].'",
+                        "Complemento":"'.$obj["Complemento"].'",
+                        "TipoPessoa":"'.$obj["TipoPessoa"].'"
+                    },';
+                }
+                
+                $tamanho = strlen($retorno);
+
+                $retorno = substr($retorno,0, $tamanho-1);
+                $retorno = $retorno . "                
+                ]}";
+                return $retorno;
 
                 $msg='{"Código":0,"Mensagem":"Ok"}';
                 return $msg;
@@ -234,11 +244,13 @@
 
             include "config.php";
 
+            $Nasc = date("Y-m-d", strtotime($this->Nascimento));
+
             $sql = "update " . $this->Tabela . " set             
             
             Nome = '$this->Nome',
             Apelido = '$this->Apelido',
-            Nascimento = '$this->Nascimento',
+            Nascimento = '$Nasc',
             Federal = '$this->Federal',
             Estadual = '$this->Estadual',
             Municipal = '$this->Municipal',
@@ -254,7 +266,7 @@
             where " . $this->CampoID . " = ?";
 
             echo $sql;
-
+            
             if ($comando = $Dados->prepare($sql)){			
 
                 $comando->bind_param("i", $this->PessoaID);
@@ -268,6 +280,7 @@
             } else {
 
                 $msg = '{"Codigo":"1","Mensagem":"Não foi possível carregar."}';
+                return $msg;
 
             }
         }

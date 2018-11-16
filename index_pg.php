@@ -14,12 +14,23 @@
                         <div class="col-lg-3 col-md-6" data-for="name">
                             <div class="form-group">
                                 <select type="text" class="form-control" name="type" placeholder="Qualquer" data-form-field="Type" required="" id="type-header2-2">
-                                    <option>Qualquer</option>
-                                    <option>Apartamentos</option>
-                                    <option>Casas</option>
-                                    <option>Salão Comercial</option>
-                                    <option>Condomínios</option>
-                                    <option>Terrenos</option>
+                                    <?php 
+                                        include "admin/config.php";
+
+                                        $sql = "SELECT * FROM TiposImovel";
+                                        $resultado = $Dados->query($sql);
+
+                                        if ($resultado->num_rows > 0) {
+                                            // output data of each row
+                                            while($reg = $resultado->fetch_assoc()) {
+                                                echo "<option>".$reg["Nome"]."</option>";
+                                            }
+                                        } else {
+                                            echo "0 results";
+                                        }
+                                        
+                                        $Dados->close();
+                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -27,9 +38,23 @@
                             <div class="form-group">
 
                                 <select type="text" class="form-control" name="status" placeholder="Qualquer" data-form-field="Status" required="" id="status-header2-2">
-                                    <option>Qualquer</option>
-                                    <option>Aluguel</option>
-                                    <option>Venda</option>                                    
+                                <?php 
+                                        include "admin/config.php";
+
+                                        $sql = "SELECT * FROM Finalidades";
+                                        $resultado = $Dados->query($sql);
+
+                                        if ($resultado->num_rows > 0) {
+                                            // output data of each row
+                                            while($reg = $resultado->fetch_assoc()) {
+                                                echo "<option>".$reg["Nome"]."</option>";
+                                            }
+                                        } else {
+                                            echo "0 results";
+                                        }
+                                        
+                                        $Dados->close();
+                                    ?>
                                 </select>
 
                             </div>
