@@ -12,7 +12,7 @@
 <section class="content">    
     <div class="box box-info color-palette-box">
         <div class="box-header with-border">
-            <h3 class="box-title"><i class="fa fa-home"></i> Dados do  Proprietário do Imóvel Novo.</h3>
+            <h3 class="box-title"><i class="fa fa-home"></i> Dados do Proprietário do Imóvel Novo.</h3>
         </div>
         <div class="box-body">
             <!-- Form Name -->
