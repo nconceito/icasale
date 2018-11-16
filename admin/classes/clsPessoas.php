@@ -72,46 +72,42 @@
         //Método Criar
         function Incluir(){
 
-            $sql = "insert into ". $this->Tabela ." (
-                Nome,
-                Apelido,
-                Nascimento,
-                Federal,
-                Estadual,
-                Municipal,
-                Rua,
-                Numero,
-                Bairro,
-                Cidade,
-                Estado,
-                CEP,
-                Complemento,
-                TipoPessoa
-        
-            ) values (
-
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?
+            $sql = "insert into ". $this->Tabela."
+                (
+                    Nome,
+                    Apelido, 
+                    Nascimento,
+                    Federal, 
+                    Estadual, 
+                    Municipal, 
+                    Rua, 
+                    Número, 
+                    Bairro,
+                    Cidade, 
+                    Estado, 
+                    CEP, 
+                    Complemento,
+                    TipoPessoa
+                ) values (
+                    ?, 
+                    ?, 
+                    ?,
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?, 
+                    ?
                 )";
                 
-                include "config.php";   
-                echo "Passou aqui.<br><br>";
-                echo $sql;
+            include "config.php";  
 
             if ($comando = $Dados->prepare($sql)){
-                
                 $comando->bind_param(
                     "ssssssssssssss",
                     $this->Nome,
@@ -130,18 +126,19 @@
                     $this->TipoPessoa            
                 );
                 
-                echo $comando->error;
+                
                 $comando->execute();
                 
-
-                var_dump($comando);
-
+                
                 $msg='{"Código":0,"Mensagem":"Ok"}';
                 return $msg;
-
+                
             } else {
-
+                
                 $msg = '{"Codigo":"1","Mensagem":"Não foi possível incluir."}';
+                echo $msg;
+                
+                var_dump($comando);                
                 return $msg;
 
             }
