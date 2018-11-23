@@ -265,8 +265,7 @@
             
             where " . $this->CampoID . " = ?";
 
-            echo $sql;
-            
+          
             if ($comando = $Dados->prepare($sql)){			
 
                 $comando->bind_param("i", $this->PessoaID);

@@ -35,9 +35,6 @@
         function getTitulo(){return $this->Titulo;}
         function setTitulo($valor){$this->Titulo=$valor;}
 
-        function getPessoaID(){return $this->Pessoa->getPessoaID();}
-        function setPessoaID($valor){$this->Pessoa->CarregarID($valor);}
-
         function getTipoImovel(){return $this->TipoImovel;}
         function setTipoImovel($valor){$this->TipoImovel=$valor;}
 
@@ -220,13 +217,6 @@
                 $this->Vagas=$obj->Vagas;
                 $this->Suites=$obj->Suites;
                 
-                include "classes/clsPessoa.php";
-                
-                settype($Pessoa, "object");
-                
-                $Pessoa = new clsPessoa();
-                
-                $Pessoa->CarregarID($obj->PessoaID);
                 
                 
                 $msg='{"Código":0,"Mensagem":"Ok"}';
